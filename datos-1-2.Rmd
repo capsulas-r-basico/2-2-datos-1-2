@@ -26,7 +26,9 @@ class: center, middle
 
 ## Proyecto Ciencia de Datos
 
-### Mayo 2023
+## Trabajo básico con filas
+
+
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = TRUE)
@@ -73,14 +75,14 @@ template: diapo-basica
 El _slicing_ se refiere a seleccionar un subconjunto de los elementos de un objeto.
 
 En nuestro caso, queremos seleccionar un número determinado de filas. Para ejemplificar,
-volvamos a carga la tabla `hospital.csv`. Aprovechamos de traducir las columnas al español:
+volvamos a cargar la tabla `hospital.csv` de la cápsula anterior. Aprovechamos de traducir las columnas al español:
 
 ```{r, warning=FALSE, eval=TRUE}
 library(readr)
 
 
 hospital <- read_csv(file = "data/hospital.csv")
-names(hospital) = c('Número', 'Ciudad', 'Género', 'Edad', 'Ingreso', 'Enfermedad')
+names(hospital) = c('Numero', 'Ciudad', 'Genero', 'Edad', 'Ingreso', 'Enfermedad')
 ```
 Si quisiéramos imprimir la tabla, esto sería demandante para R, pues tiene 150.000 filas.
 
@@ -96,6 +98,52 @@ que nos entrega los n primeros elementos de un dataframe:
 hospital %>% slice_head(n = 5)
 
 ```
+---
+template: diapo-basica
+
+## Paréntesis: operador _pipe_ (%>%)
+
+Este operador es básico para la sintaxis utilizando _tidyverse_ y viene del paquete `magrittr`.
+
+--
+
+Permite hacer código más legible. En la práctica simplemente utiliza el elemento de la izquierda,
+como el primer argumento de la función de la derecha:
+
+``` {r, warning=FALSE, eval=F, echo = T}
+x %>% f == f(x)
+
+```
+--
+
+En el ejemplo anterior teníamos `hospital %>% slice_head(n = 5)`, lo que es equivalente a
+`slice_head(hospital, n = 5)`. 
+
+--
+
+La sintaxis usando _pipe_ permite leer el código de izquierda a derecha, casi como texto escrito.
+En este caso podríamos leerlo como: "al dataset `hospital` aplícale la función `slice_head`".
+
+---
+template: diapo-basica
+
+## Paréntesis: operador _pipe_ (%>%)
+
+Las funciones del `tidyverse` están pensadas de forma que el primer argumento de estas es siempre
+una tabla de datos, lo que implica que podemos encadenar múltiples _pipes_:
+
+```{r, warning=FALSE, eval=TRUE, echo = T}
+hospital %>% slice_head(n = 3) %>% select(Numero, Genero) %>% filter(Genero == 'Male')
+
+```
+--
+Aquí nos adelantamos un poco con el contenido, pero el siguiente código se puede leer como "del dataset hospital, obtén las 3 primeras  filas, luego selecciona las columnas Numero y Genero y finalmente mantén solo las filas cuyo Genero es 'Male'". Esto resulta más fácil de
+leer que la sintaxis alternativa sin uso de _pipes_:
+
+```{r, eval = F}
+filter(select(slice_head(hospital, n = 3), Numero, Genero), Genero == 'Male')
+```
+
 
 ---
 template: diapo-basica
@@ -103,7 +151,6 @@ template: diapo-basica
 ## Slicing
 
 Si queremos los últimos n elementos usamos `slice_tail`:
-
 
 ```{r, warning=FALSE, eval=TRUE, echo = T}
 hospital %>% slice_tail(n = 3)
@@ -158,7 +205,7 @@ template: diapo-basica
 
 ## Filter
 
-Muchas veces no queremos una selección de filas por su posición, sino que queremos que cumplan cierta condición. Los métodos de _slicing_ no son de ayuda aquí. Para estos casos utilizaremos la función `filter`.
+Muchas veces no queremos una selección de filas por su posición, sino que queremos que cumplan cierta condición. Para estos casos utilizaremos la función `filter`.
 
 ¿Cómo puedo seleccionar las personas que están enfermas?
 --
@@ -254,12 +301,12 @@ Probemos algunas de estas condiciones:
 
 Personas cuyo sexo no es masculino.
 ```{r, warning=FALSE, eval=FALSE, echo = T}
-hospital %>% filter(Género != 'Male') %>% slice_head(n = 4)
+hospital %>% filter(Genero != 'Male') %>% slice_head(n = 4)
 
 ```
 --
 ```{r, warning=FALSE, eval=TRUE, echo=F}
-knitr::kable(hospital %>% filter(Género != 'Male') %>% slice_head(n = 4))
+knitr::kable(hospital %>% filter(Genero != 'Male') %>% slice_head(n = 4))
 
 ```
 ---
@@ -277,12 +324,12 @@ También podríamos querer que se cumpla más de una condición o bien alguna co
 Hombres mayores de 64 años:
 
 ```{r, warning=FALSE, eval=FALSE, echo = T}
-hospital %>% filter(Género == 'Male' & Edad > 64)
+hospital %>% filter(Genero == 'Male' & Edad > 64)
 
 ```
 --
 ```{r, warning=FALSE, eval=TRUE, echo=F}
-knitr::kable(hospital %>% filter(Género == 'Male' & Edad > 64) %>% slice_head(n = 4))
+knitr::kable(hospital %>% filter(Genero == 'Male' & Edad > 64) %>% slice_head(n = 4))
 
 ```
 
@@ -301,12 +348,12 @@ También podríamos querer que se cumpla más de una condición o bien alguna co
 Mujeres en Dallas o Boston:
 
 ```{r, warning=FALSE, eval=FALSE, echo = T}
-hospital %>% filter(Género == 'Female' & (Ciudad == 'Boston' | Ciudad == 'Dallas'))
+hospital %>% filter(Genero == 'Female' & (Ciudad == 'Boston' | Ciudad == 'Dallas'))
 
 ```
 --
 ```{r, warning=FALSE, eval=TRUE, echo=F}
-knitr::kable(hospital %>% filter(Género == 'Female' &
+knitr::kable(hospital %>% filter(Genero == 'Female' &
                                    (Ciudad == 'Boston' |
                                       Ciudad == 'Dallas') ) %>% slice_sample(n = 4))
 
@@ -328,7 +375,8 @@ class: center, middle
 
 ## Proyecto Ciencia de Datos
 
-### Mayo 2023
+## Trabajo básico con filas
+
 
 
 

@@ -4,7 +4,7 @@
     <title>R and databases</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <meta name="date" content="2023-06-12" />
+    <meta name="date" content="2023-06-22" />
     <script src="datos-1-2_files/header-attrs-2.22/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -23,7 +23,9 @@ class: center, middle
 
 ## Proyecto Ciencia de Datos
 
-### Mayo 2023
+## Trabajo básico con filas
+
+
 
 
 
@@ -60,7 +62,7 @@ template: diapo-basica
 El _slicing_ se refiere a seleccionar un subconjunto de los elementos de un objeto.
 
 En nuestro caso, queremos seleccionar un número determinado de filas. Para ejemplificar,
-volvamos a carga la tabla `hospital.csv`. Aprovechamos de traducir las columnas al español:
+volvamos a cargar la tabla `hospital.csv` de la cápsula anterior. Aprovechamos de traducir las columnas al español:
 
 
 ```r
@@ -68,7 +70,7 @@ library(readr)
 
 
 hospital &lt;- read_csv(file = "data/hospital.csv")
-names(hospital) = c('Número', 'Ciudad', 'Género', 'Edad', 'Ingreso', 'Enfermedad')
+names(hospital) = c('Numero', 'Ciudad', 'Genero', 'Edad', 'Ingreso', 'Enfermedad')
 ```
 Si quisiéramos imprimir la tabla, esto sería demandante para R, pues tiene 150.000 filas.
 
@@ -87,7 +89,7 @@ hospital %&gt;% slice_head(n = 5)
 
 ```
 ## # A tibble: 5 x 6
-##   Número Ciudad Género  Edad Ingreso Enfermedad
+##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1      1 Dallas Male      41   40367 No        
 ## 2      2 Dallas Male      54   45084 No        
@@ -95,6 +97,62 @@ hospital %&gt;% slice_head(n = 5)
 ## 4      4 Dallas Male      40   40941 No        
 ## 5      5 Dallas Male      46   50289 No
 ```
+---
+template: diapo-basica
+
+## Paréntesis: operador _pipe_ (%&gt;%)
+
+Este operador es básico para la sintaxis utilizando _tidyverse_ y viene del paquete `magrittr`.
+
+--
+
+Permite hacer código más legible. En la práctica simplemente utiliza el elemento de la izquierda,
+como el primer argumento de la función de la derecha:
+
+
+```r
+x %&gt;% f == f(x)
+```
+--
+
+En el ejemplo anterior teníamos `hospital %&gt;% slice_head(n = 5)`, lo que es equivalente a
+`slice_head(hospital, n = 5)`. 
+
+--
+
+La sintaxis usando _pipe_ permite leer el código de izquierda a derecha, casi como texto escrito.
+En este caso podríamos leerlo como: "al dataset `hospital` aplícale la función `slice_head`".
+
+---
+template: diapo-basica
+
+## Paréntesis: operador _pipe_ (%&gt;%)
+
+Las funciones del `tidyverse` están pensadas de forma que el primer argumento de estas es siempre
+una tabla de datos, lo que implica que podemos encadenar múltiples _pipes_:
+
+
+```r
+hospital %&gt;% slice_head(n = 3) %&gt;% select(Numero, Genero) %&gt;% filter(Genero == 'Male')
+```
+
+```
+## # A tibble: 3 x 2
+##   Numero Genero
+##    &lt;dbl&gt; &lt;chr&gt; 
+## 1      1 Male  
+## 2      2 Male  
+## 3      3 Male
+```
+--
+Aquí nos adelantamos un poco con el contenido, pero el siguiente código se puede leer como "del dataset hospital, obtén las 3 primeras  filas, luego selecciona las columnas Numero y Genero y finalmente mantén solo las filas cuyo Genero es 'Male'". Esto resulta más fácil de
+leer que la sintaxis alternativa sin uso de _pipes_:
+
+
+```r
+filter(select(slice_head(hospital, n = 3), Numero, Genero), Genero == 'Male')
+```
+
 
 ---
 template: diapo-basica
@@ -104,14 +162,13 @@ template: diapo-basica
 Si queremos los últimos n elementos usamos `slice_tail`:
 
 
-
 ```r
 hospital %&gt;% slice_tail(n = 3)
 ```
 
 ```
 ## # A tibble: 3 x 6
-##   Número Ciudad Género  Edad Ingreso Enfermedad
+##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1 149998 Austin Male      26  111885 No        
 ## 2 149999 Austin Male      25  111878 No        
@@ -133,11 +190,11 @@ hospital %&gt;% slice_sample(n = 3)
 
 ```
 ## # A tibble: 3 x 6
-##   Número Ciudad        Género  Edad Ingreso Enfermedad
+##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1 134389 San Diego     Male      35  115405 No        
-## 2 146335 Austin        Male      31   90347 No        
-## 3  30543 New York City Female    60   95283 No
+## 1  69006 New York City Male      34   93121 No        
+## 2  83065 Los Angeles   Female    44  108158 No        
+## 3 108121 Mountain View Female    48  132441 Yes
 ```
 
 
@@ -156,11 +213,11 @@ hospital %&gt;% slice_sample(n = 3)
 
 ```
 ## # A tibble: 3 x 6
-##   Número Ciudad          Género  Edad Ingreso Enfermedad
-##    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1  15793 Dallas          Female    63   41074 No        
-## 2 130817 Washington D.C. Female    46   82075 No        
-## 3  61340 New York City   Female    27   96068 No
+##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
+##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
+## 1 115419 Mountain View Female    61  119306 No        
+## 2  58300 New York City Male      59   87228 No        
+## 3 134538 San Diego     Male      54   98508 No
 ```
 ---
 template: diapo-basica
@@ -177,7 +234,7 @@ hospital %&gt;% slice(3:7)
 
 ```
 ## # A tibble: 5 x 6
-##   Número Ciudad Género  Edad Ingreso Enfermedad
+##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1      3 Dallas Male      42   52483 No        
 ## 2      4 Dallas Male      40   40941 No        
@@ -195,7 +252,7 @@ template: diapo-basica
 
 ## Filter
 
-Muchas veces no queremos una selección de filas por su posición, sino que queremos que cumplan cierta condición. Los métodos de _slicing_ no son de ayuda aquí. Para estos casos utilizaremos la función `filter`.
+Muchas veces no queremos una selección de filas por su posición, sino que queremos que cumplan cierta condición. Para estos casos utilizaremos la función `filter`.
 
 ¿Cómo puedo seleccionar las personas que están enfermas?
 --
@@ -208,7 +265,7 @@ hospital %&gt;% filter(Enfermedad == 'Yes') %&gt;% slice_head(n = 5)
 
 ```
 ## # A tibble: 5 x 6
-##   Número Ciudad Género  Edad Ingreso Enfermedad
+##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1     11 Dallas Female    48   41524 Yes       
 ## 2     18 Dallas Male      38   46373 Yes       
@@ -246,7 +303,7 @@ hospital %&gt;% filter(Edad &gt;= 41) %&gt;% slice_head(n = 4)
 ```
 --
 
-| Número|Ciudad |Género | Edad| Ingreso|Enfermedad |
+| Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
 |      1|Dallas |Male   |   41|   40367|No         |
 |      2|Dallas |Male   |   54|   45084|No         |
@@ -281,7 +338,7 @@ hospital %&gt;% filter(Edad &gt; 41) %&gt;% slice_head(n = 4)
 ```
 --
 
-| Número|Ciudad |Género | Edad| Ingreso|Enfermedad |
+| Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
 |      2|Dallas |Male   |   54|   45084|No         |
 |      3|Dallas |Male   |   42|   52483|No         |
@@ -309,11 +366,11 @@ Probemos algunas de estas condiciones:
 Personas cuyo sexo no es masculino.
 
 ```r
-hospital %&gt;% filter(Género != 'Male') %&gt;% slice_head(n = 4)
+hospital %&gt;% filter(Genero != 'Male') %&gt;% slice_head(n = 4)
 ```
 --
 
-| Número|Ciudad |Género | Edad| Ingreso|Enfermedad |
+| Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
 |      6|Dallas |Female |   36|   50786|No         |
 |      7|Dallas |Female |   32|   33155|No         |
@@ -335,11 +392,11 @@ Hombres mayores de 64 años:
 
 
 ```r
-hospital %&gt;% filter(Género == 'Male' &amp; Edad &gt; 64)
+hospital %&gt;% filter(Genero == 'Male' &amp; Edad &gt; 64)
 ```
 --
 
-| Número|Ciudad |Género | Edad| Ingreso|Enfermedad |
+| Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
 |    405|Dallas |Male   |   65|   54304|No         |
 |    470|Dallas |Male   |   65|   52691|No         |
@@ -362,16 +419,16 @@ Mujeres en Dallas o Boston:
 
 
 ```r
-hospital %&gt;% filter(Género == 'Female' &amp; (Ciudad == 'Boston' | Ciudad == 'Dallas'))
+hospital %&gt;% filter(Genero == 'Female' &amp; (Ciudad == 'Boston' | Ciudad == 'Dallas'))
 ```
 --
 
-| Número|Ciudad |Género | Edad| Ingreso|Enfermedad |
+| Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
-| 121761|Boston |Female |   46|   82686|No         |
-|   1068|Dallas |Female |   54|   43645|No         |
-|  18492|Dallas |Female |   34|   21219|No         |
-|  15284|Dallas |Female |   64|   45062|No         |
+| 116993|Boston |Female |   34|   88606|No         |
+|    493|Dallas |Female |   32|   29352|No         |
+| 122559|Boston |Female |   54|   78147|No         |
+| 118976|Boston |Female |   64|   81265|No         |
 
 ---
 
@@ -389,7 +446,8 @@ class: center, middle
 
 ## Proyecto Ciencia de Datos
 
-### Mayo 2023
+## Trabajo básico con filas
+
 
 
 
