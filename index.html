@@ -4,7 +4,7 @@
     <title>R and databases</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <meta name="date" content="2023-06-22" />
+    <meta name="date" content="2023-06-28" />
     <script src="datos-1-2_files/header-attrs-2.22/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -116,7 +116,7 @@ x %&gt;% f == f(x)
 --
 
 En el ejemplo anterior teníamos `hospital %&gt;% slice_head(n = 5)`, lo que es equivalente a
-`slice_head(hospital, n = 5)`. 
+`slice_head(data = hospital, n = 5)`. 
 
 --
 
@@ -145,12 +145,12 @@ hospital %&gt;% slice_head(n = 3) %&gt;% select(Numero, Genero) %&gt;% filter(Ge
 ## 3      3 Male
 ```
 --
-Aquí nos adelantamos un poco con el contenido, pero el siguiente código se puede leer como "del dataset hospital, obtén las 3 primeras  filas, luego selecciona las columnas Numero y Genero y finalmente mantén solo las filas cuyo Genero es 'Male'". Esto resulta más fácil de
+Aquí nos adelantamos un poco con el contenido, pero el código anterior se puede leer como "del dataset hospital, obtén las 3 primeras  filas, luego selecciona las columnas Numero y Genero y finalmente mantén solo las filas cuyo Genero es 'Male'". Esto resulta más fácil de
 leer que la sintaxis alternativa sin uso de _pipes_:
 
 
 ```r
-filter(select(slice_head(hospital, n = 3), Numero, Genero), Genero == 'Male')
+filter(data = select(data = slice_head(data = hospital, n = 3), Numero, Genero), Genero == 'Male')
 ```
 
 
@@ -190,11 +190,11 @@ hospital %&gt;% slice_sample(n = 3)
 
 ```
 ## # A tibble: 3 x 6
-##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
-##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1  69006 New York City Male      34   93121 No        
-## 2  83065 Los Angeles   Female    44  108158 No        
-## 3 108121 Mountain View Female    48  132441 Yes
+##   Numero Ciudad          Genero  Edad Ingreso Enfermedad
+##    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
+## 1  49220 New York City   Female    60   88401 No        
+## 2  95485 Los Angeles     Female    35   96485 No        
+## 3 126256 Washington D.C. Female    59   60421 No
 ```
 
 
@@ -215,9 +215,9 @@ hospital %&gt;% slice_sample(n = 3)
 ## # A tibble: 3 x 6
 ##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1 115419 Mountain View Female    61  119306 No        
-## 2  58300 New York City Male      59   87228 No        
-## 3 134538 San Diego     Male      54   98508 No
+## 1  83070 Los Angeles   Male      63  110583 No        
+## 2 140292 Austin        Male      37   94251 No        
+## 3  34366 New York City Male      38  112930 No
 ```
 ---
 template: diapo-basica
@@ -286,10 +286,10 @@ template: diapo-basica
 En el ejemplo anterior utilizamos el operador lógico `==`, que significa igualdad entre
 dos valores. Otros operadores lógicos de uso común son:
 
-- `!=` distinto a.
-- `&gt;`, `&gt;=` mayor a y mayor o igual a.
--  mayor o igual a.
-- `&lt;`, `&lt;=` menor y menor o igual a.
+- `!=` distinto a
+- `&gt;`, `&gt;=` mayor a y mayor o igual a
+- `&lt;`, `&lt;=` menor y menor o igual a
+- `%in%` pertenece al conjunto
 
 --
 
@@ -425,10 +425,10 @@ hospital %&gt;% filter(Genero == 'Female' &amp; (Ciudad == 'Boston' | Ciudad == 
 
 | Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
-| 116993|Boston |Female |   34|   88606|No         |
-|    493|Dallas |Female |   32|   29352|No         |
-| 122559|Boston |Female |   54|   78147|No         |
-| 118976|Boston |Female |   64|   81265|No         |
+|   6947|Dallas |Female |   63|   30122|No         |
+|  12135|Dallas |Female |   43|   29542|No         |
+|   3989|Dallas |Female |   34|   54812|No         |
+| 119315|Boston |Female |   62|   87620|No         |
 
 ---
 

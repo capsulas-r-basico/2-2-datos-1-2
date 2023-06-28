@@ -117,7 +117,7 @@ x %>% f == f(x)
 --
 
 En el ejemplo anterior teníamos `hospital %>% slice_head(n = 5)`, lo que es equivalente a
-`slice_head(hospital, n = 5)`. 
+`slice_head(data = hospital, n = 5)`. 
 
 --
 
@@ -137,11 +137,11 @@ hospital %>% slice_head(n = 3) %>% select(Numero, Genero) %>% filter(Genero == '
 
 ```
 --
-Aquí nos adelantamos un poco con el contenido, pero el siguiente código se puede leer como "del dataset hospital, obtén las 3 primeras  filas, luego selecciona las columnas Numero y Genero y finalmente mantén solo las filas cuyo Genero es 'Male'". Esto resulta más fácil de
+Aquí nos adelantamos un poco con el contenido, pero el código anterior se puede leer como "del dataset hospital, obtén las 3 primeras  filas, luego selecciona las columnas Numero y Genero y finalmente mantén solo las filas cuyo Genero es 'Male'". Esto resulta más fácil de
 leer que la sintaxis alternativa sin uso de _pipes_:
 
 ```{r, eval = F}
-filter(select(slice_head(hospital, n = 3), Numero, Genero), Genero == 'Male')
+filter(data = select(data = slice_head(data = hospital, n = 3), Numero, Genero), Genero == 'Male')
 ```
 
 
@@ -228,10 +228,10 @@ template: diapo-basica
 En el ejemplo anterior utilizamos el operador lógico `==`, que significa igualdad entre
 dos valores. Otros operadores lógicos de uso común son:
 
-- `!=` distinto a.
-- `>`, `>=` mayor a y mayor o igual a.
--  mayor o igual a.
-- `<`, `<=` menor y menor o igual a.
+- `!=` distinto a
+- `>`, `>=` mayor a y mayor o igual a
+- `<`, `<=` menor y menor o igual a
+- `%in%` pertenece al conjunto
 
 --
 
