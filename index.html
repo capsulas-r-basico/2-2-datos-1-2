@@ -4,8 +4,8 @@
     <title>R and databases</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <meta name="date" content="2023-06-28" />
-    <script src="datos-1-2_files/header-attrs-2.22/header-attrs.js"></script>
+    <meta name="date" content="2023-07-03" />
+    <script src="datos-1-2_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -88,7 +88,7 @@ hospital %&gt;% slice_head(n = 5)
 ```
 
 ```
-## # A tibble: 5 x 6
+## # A tibble: 5 × 6
 ##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1      1 Dallas Male      41   40367 No        
@@ -137,7 +137,7 @@ hospital %&gt;% slice_head(n = 3) %&gt;% select(Numero, Genero) %&gt;% filter(Ge
 ```
 
 ```
-## # A tibble: 3 x 2
+## # A tibble: 3 × 2
 ##   Numero Genero
 ##    &lt;dbl&gt; &lt;chr&gt; 
 ## 1      1 Male  
@@ -167,7 +167,7 @@ hospital %&gt;% slice_tail(n = 3)
 ```
 
 ```
-## # A tibble: 3 x 6
+## # A tibble: 3 × 6
 ##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1 149998 Austin Male      26  111885 No        
@@ -189,12 +189,12 @@ hospital %&gt;% slice_sample(n = 3)
 ```
 
 ```
-## # A tibble: 3 x 6
-##   Numero Ciudad          Genero  Edad Ingreso Enfermedad
-##    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1  49220 New York City   Female    60   88401 No        
-## 2  95485 Los Angeles     Female    35   96485 No        
-## 3 126256 Washington D.C. Female    59   60421 No
+## # A tibble: 3 × 6
+##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
+##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
+## 1  44944 New York City Male      36   95391 No        
+## 2 121995 Boston        Male      48  106128 No        
+## 3 138883 Austin        Female    29   82382 No
 ```
 
 
@@ -212,12 +212,12 @@ hospital %&gt;% slice_sample(n = 3)
 ```
 
 ```
-## # A tibble: 3 x 6
-##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
-##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1  83070 Los Angeles   Male      63  110583 No        
-## 2 140292 Austin        Male      37   94251 No        
-## 3  34366 New York City Male      38  112930 No
+## # A tibble: 3 × 6
+##   Numero Ciudad          Genero  Edad Ingreso Enfermedad
+##    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
+## 1  59820 New York City   Male      38  106349 No        
+## 2  49687 New York City   Female    43  107501 No        
+## 3 129700 Washington D.C. Female    45   68529 No
 ```
 ---
 template: diapo-basica
@@ -233,7 +233,7 @@ hospital %&gt;% slice(3:7)
 ```
 
 ```
-## # A tibble: 5 x 6
+## # A tibble: 5 × 6
 ##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1      3 Dallas Male      42   52483 No        
@@ -254,7 +254,10 @@ template: diapo-basica
 
 Muchas veces no queremos una selección de filas por su posición, sino que queremos que cumplan cierta condición. Para estos casos utilizaremos la función `filter`.
 
+--
+
 ¿Cómo puedo seleccionar las personas que están enfermas?
+
 --
 
 
@@ -264,7 +267,7 @@ hospital %&gt;% filter(Enfermedad == 'Yes') %&gt;% slice_head(n = 5)
 ```
 
 ```
-## # A tibble: 5 x 6
+## # A tibble: 5 × 6
 ##   Numero Ciudad Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
 ## 1     11 Dallas Female    48   41524 Yes       
@@ -425,10 +428,10 @@ hospital %&gt;% filter(Genero == 'Female' &amp; (Ciudad == 'Boston' | Ciudad == 
 
 | Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
-|   6947|Dallas |Female |   63|   30122|No         |
-|  12135|Dallas |Female |   43|   29542|No         |
-|   3989|Dallas |Female |   34|   54812|No         |
-| 119315|Boston |Female |   62|   87620|No         |
+|   6397|Dallas |Female |   47|   50574|No         |
+|   8961|Dallas |Female |   38|   35426|No         |
+|   1171|Dallas |Female |   55|   33202|No         |
+| 116496|Boston |Female |   55|   86631|No         |
 
 ---
 
