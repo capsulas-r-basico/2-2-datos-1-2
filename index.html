@@ -192,9 +192,9 @@ hospital %&gt;% slice_sample(n = 3)
 ## # A tibble: 3 × 6
 ##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1  44944 New York City Male      36   95391 No        
-## 2 121995 Boston        Male      48  106128 No        
-## 3 138883 Austin        Female    29   82382 No
+## 1 134187 San Diego     Male      55   86447 No        
+## 2  30894 New York City Female    41   78561 No        
+## 3  75895 Los Angeles   Male      43   84848 No
 ```
 
 
@@ -213,11 +213,11 @@ hospital %&gt;% slice_sample(n = 3)
 
 ```
 ## # A tibble: 3 × 6
-##   Numero Ciudad          Genero  Edad Ingreso Enfermedad
-##    &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1  59820 New York City   Male      38  106349 No        
-## 2  49687 New York City   Female    43  107501 No        
-## 3 129700 Washington D.C. Female    45   68529 No
+##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
+##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
+## 1 101476 Los Angeles   Female    60   87302 No        
+## 2 138083 Austin        Male      30  100454 No        
+## 3 111154 Mountain View Male      30  133065 No
 ```
 ---
 template: diapo-basica
@@ -324,29 +324,29 @@ template: diapo-basica
 En el ejemplo anterior utilizamos el operador lógico `==`, que significa igualdad entre
 dos valores. Otros operadores lógicos de uso común son:
 
-- `!=` distinto a.
-- `&gt;`, `&gt;=` mayor a y mayor o igual a.
--  mayor o igual a.
-- `&lt;`, `&lt;=` menor y menor o igual a.
+- `!=` distinto a
+- `&gt;`, `&gt;=` mayor a y mayor o igual a
+- `&lt;`, `&lt;=` menor y menor o igual a
+- `%in%` pertenece al conjunto
 
 
 
 Probemos algunas de estas condiciones:
 
-Personas mayores a 41 años.
+Personas de Austin o Boston.
 
 
 ```r
-hospital %&gt;% filter(Edad &gt; 41) %&gt;% slice_head(n = 4)
+hospital %&gt;% filter(Ciudad %in%  c('Austin', 'Boston')) %&gt;% slice_head(n = 4)
 ```
 --
 
 | Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
-|      2|Dallas |Male   |   54|   45084|No         |
-|      3|Dallas |Male   |   42|   52483|No         |
-|      5|Dallas |Male   |   46|   50289|No         |
-|      9|Dallas |Male   |   51|   68667|No         |
+| 116407|Boston |Female |   57|   87004|No         |
+| 116408|Boston |Male   |   60|   93196|No         |
+| 116409|Boston |Male   |   25|  112492|No         |
+| 116410|Boston |Male   |   28|   91910|No         |
 ---
 
 template: diapo-basica
@@ -358,10 +358,10 @@ template: diapo-basica
 En el ejemplo anterior utilizamos el operador lógico `==`, que significa igualdad entre
 dos valores. Otros operadores lógicos de uso común son:
 
-- `!=` distinto a.
-- `&gt;`, `&gt;=` mayor a y mayor o igual a.
--  mayor o igual a.
-- `&lt;`, `&lt;=` menor y menor o igual a.
+- `!=` distinto a
+- `&gt;`, `&gt;=` mayor a y mayor o igual a
+- `&lt;`, `&lt;=` menor y menor o igual a
+- `%in%` pertenece al conjunto
 
 
 Probemos algunas de estas condiciones:
@@ -428,10 +428,10 @@ hospital %&gt;% filter(Genero == 'Female' &amp; (Ciudad == 'Boston' | Ciudad == 
 
 | Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
-|   6397|Dallas |Female |   47|   50574|No         |
-|   8961|Dallas |Female |   38|   35426|No         |
-|   1171|Dallas |Female |   55|   33202|No         |
-| 116496|Boston |Female |   55|   86631|No         |
+| 123397|Boston |Female |   59|   81285|No         |
+|   5549|Dallas |Female |   36|   50853|No         |
+|  14408|Dallas |Female |   63|   48835|No         |
+|   9099|Dallas |Female |   30|   26283|No         |
 
 ---
 

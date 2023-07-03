@@ -263,24 +263,24 @@ template: diapo-basica
 En el ejemplo anterior utilizamos el operador lógico `==`, que significa igualdad entre
 dos valores. Otros operadores lógicos de uso común son:
 
-- `!=` distinto a.
-- `>`, `>=` mayor a y mayor o igual a.
--  mayor o igual a.
-- `<`, `<=` menor y menor o igual a.
+- `!=` distinto a
+- `>`, `>=` mayor a y mayor o igual a
+- `<`, `<=` menor y menor o igual a
+- `%in%` pertenece al conjunto
 
 
 
 Probemos algunas de estas condiciones:
 
-Personas mayores a 41 años.
+Personas de Austin o Boston.
 
 ```{r, warning=FALSE, eval=FALSE, echo = T}
-hospital %>% filter(Edad > 41) %>% slice_head(n = 4)
+hospital %>% filter(Ciudad %in%  c('Austin', 'Boston')) %>% slice_head(n = 4)
 
 ```
 --
 ```{r, warning=FALSE, eval=TRUE, echo=F}
-knitr::kable(hospital %>% filter(Edad > 41) %>% slice_head(n = 4))
+knitr::kable(hospital %>% filter(Ciudad %in%  c('Austin', 'Boston')) %>% slice_head(n = 4))
 
 ```
 ---
@@ -294,10 +294,10 @@ template: diapo-basica
 En el ejemplo anterior utilizamos el operador lógico `==`, que significa igualdad entre
 dos valores. Otros operadores lógicos de uso común son:
 
-- `!=` distinto a.
-- `>`, `>=` mayor a y mayor o igual a.
--  mayor o igual a.
-- `<`, `<=` menor y menor o igual a.
+- `!=` distinto a
+- `>`, `>=` mayor a y mayor o igual a
+- `<`, `<=` menor y menor o igual a
+- `%in%` pertenece al conjunto
 
 
 Probemos algunas de estas condiciones:
