@@ -207,7 +207,10 @@ template: diapo-basica
 
 Muchas veces no queremos una selección de filas por su posición, sino que queremos que cumplan cierta condición. Para estos casos utilizaremos la función `filter`.
 
+--
+
 ¿Cómo puedo seleccionar las personas que están enfermas?
+
 --
 
 
