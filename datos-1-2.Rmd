@@ -351,14 +351,38 @@ También podríamos querer que se cumpla más de una condición o bien alguna co
 Mujeres en Dallas o Boston:
 
 ```{r, warning=FALSE, eval=FALSE, echo = T}
-hospital %>% filter(Genero == 'Female' & (Ciudad == 'Boston' | Ciudad == 'Dallas'))
+hospital %>% filter(Genero == 'Female' & (Ciudad == 'Dallas' | Ciudad == 'Boston'))
 
 ```
 --
 ```{r, warning=FALSE, eval=TRUE, echo=F}
-knitr::kable(hospital %>% filter(Genero == 'Female' &
-                                   (Ciudad == 'Boston' |
-                                      Ciudad == 'Dallas') ) %>% slice_sample(n = 4))
+knitr::kable(hospital  %>% arrange(desc(Genero)) %>% filter(Genero == 'Female' &
+                                   (Ciudad == 'Dallas' |
+                                      Ciudad == 'Boston') ) %>% slice_head(n = 4))
+```
+---
+template: diapo-basica
+
+## `filter` y operadores lógicos
+
+También podríamos querer que se cumpla más de una condición o bien alguna condición de varias. Para esto tenemos los operadores lógicos "&" y "|":
+
+- `condicion1 & condicion2` operador "y", mantenemos filas que cumplen las dos condiciones al mismo tiempo.
+- `condicion1 | condicion2` operador "o", mantenemos filas que cumplen cualquiera de las condiciones.
+
+
+
+Mujeres en Dallas o Boston:
+
+```{r, warning=FALSE, eval=FALSE, echo = T}
+hospital %>% filter((Genero == 'Female' & Ciudad == 'Dallas') | Ciudad == 'Boston')
+
+```
+
+```{r, warning=FALSE, eval=TRUE, echo=F}
+knitr::kable(hospital %>% arrange(desc(Genero)) %>% 
+               filter((Genero == 'Female' & Ciudad == 'Dallas') |
+                                   Ciudad == 'Boston') %>% slice_head(n = 4))
 
 ```
 

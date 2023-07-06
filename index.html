@@ -4,7 +4,7 @@
     <title>R and databases</title>
     <meta charset="utf-8" />
     <meta name="author" content="" />
-    <meta name="date" content="2023-07-03" />
+    <meta name="date" content="2023-07-06" />
     <script src="datos-1-2_files/header-attrs-2.21/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -192,9 +192,9 @@ hospital %&gt;% slice_sample(n = 3)
 ## # A tibble: 3 × 6
 ##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
 ##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1 134187 San Diego     Male      55   86447 No        
-## 2  30894 New York City Female    41   78561 No        
-## 3  75895 Los Angeles   Male      43   84848 No
+## 1  77307 Los Angeles   Female    59   81456 Yes       
+## 2  19903 New York City Male      48   95380 No        
+## 3  96258 Los Angeles   Female    28   87773 No
 ```
 
 
@@ -213,11 +213,11 @@ hospital %&gt;% slice_sample(n = 3)
 
 ```
 ## # A tibble: 3 × 6
-##   Numero Ciudad        Genero  Edad Ingreso Enfermedad
-##    &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
-## 1 101476 Los Angeles   Female    60   87302 No        
-## 2 138083 Austin        Male      30  100454 No        
-## 3 111154 Mountain View Male      30  133065 No
+##   Numero Ciudad Genero  Edad Ingreso Enfermedad
+##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     
+## 1   4151 Dallas Male      58   46792 No        
+## 2    658 Dallas Female    53   33410 No        
+## 3   7280 Dallas Male      48   48516 No
 ```
 ---
 template: diapo-basica
@@ -422,16 +422,42 @@ Mujeres en Dallas o Boston:
 
 
 ```r
-hospital %&gt;% filter(Genero == 'Female' &amp; (Ciudad == 'Boston' | Ciudad == 'Dallas'))
+hospital %&gt;% filter(Genero == 'Female' &amp; (Ciudad == 'Dallas' | Ciudad == 'Boston'))
 ```
 --
 
 | Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
 |------:|:------|:------|----:|-------:|:----------|
-| 123397|Boston |Female |   59|   81285|No         |
-|   5549|Dallas |Female |   36|   50853|No         |
-|  14408|Dallas |Female |   63|   48835|No         |
-|   9099|Dallas |Female |   30|   26283|No         |
+|      6|Dallas |Female |   36|   50786|No         |
+|      7|Dallas |Female |   32|   33155|No         |
+|     10|Dallas |Female |   30|   50082|No         |
+|     11|Dallas |Female |   48|   41524|Yes        |
+---
+template: diapo-basica
+
+## `filter` y operadores lógicos
+
+También podríamos querer que se cumpla más de una condición o bien alguna condición de varias. Para esto tenemos los operadores lógicos "&amp;" y "|":
+
+- `condicion1 &amp; condicion2` operador "y", mantenemos filas que cumplen las dos condiciones al mismo tiempo.
+- `condicion1 | condicion2` operador "o", mantenemos filas que cumplen cualquiera de las condiciones.
+
+
+
+Mujeres en Dallas o Boston:
+
+
+```r
+hospital %&gt;% filter((Genero == 'Female' &amp; Ciudad == 'Dallas') | Ciudad == 'Boston')
+```
+
+
+| Numero|Ciudad |Genero | Edad| Ingreso|Enfermedad |
+|------:|:------|:------|----:|-------:|:----------|
+| 116408|Boston |Male   |   60|   93196|No         |
+| 116409|Boston |Male   |   25|  112492|No         |
+| 116410|Boston |Male   |   28|   91910|No         |
+| 116412|Boston |Male   |   41|  100492|Yes        |
 
 ---
 
